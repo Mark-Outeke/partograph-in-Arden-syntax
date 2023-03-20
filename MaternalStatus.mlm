@@ -1,0 +1,89 @@
+maintenance:
+    title:          title;; 
+    mlmname:       MaternalStatus;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+       arguments := Argument;
+    
+         
+       		  
+       	let Ucutoff_SYsBPH be 140;
+        let Ucutoff_DiaBPH be 90;
+        let Lcutoff_SYsBPH be 80;
+        let Lcutoff_DiaBPH be 60;
+        	
+        	 				(FHR, 
+         					Amniotic_Fluid,
+					       	ContractionsPrd, 
+					       	DilatationSize, 
+					       	SYsBPH, 
+					       	DiasBPH, 
+					       	Temperature, 
+					       	MHR, 
+					       	Urine):= argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     
+	 if SYsBPH < Lcutoff_SYsBPH  and 
+     DiaBPH > Ucutoff_DiaBPH and 
+     Urine = "P++" then
+     Classification := localized 'Alert2' ;
+     classify := true;
+     endif;
+     
+     if Amniotic_Fluid =  "+++" and 
+     FHR > 160 after 30 minutes then
+     Classification := localized 'Alert3' ;
+     endif;
+     classify := true;
+     if ContractionsPrd > 5 and 
+     DilatationSize < 1 then
+     Classification := localized 'Alert4';
+     endif;
+     classify := true;
+     if Temperature < 35 then
+     Classification := localized 'Alert5' ;
+     endif;
+      classify := true;
+     if MHR > 100 and 
+     FHR > 120 and 
+     Amniotic_Fluid = "B" then
+     Classification := localized 'Alert6';
+        endif;
+         classify := true;
+        classify := classify FORMATTED WITH LOCALIZED 'msg';
+     Conclude Classification is Present;
+     
+   ;;
+	action: 
+        return classify || msg || Classification;
+   ;;
+   urgency: ;;
+   
+   resources:
+    default: en;;
+    language: en
+   'Alert1' : "Possible Obstructed labour, Recommend Caeserean Section.";
+   'Alert2' : "Possible Pre-eclampsia, Recommend admission of IV fluids and Valiam.";
+   'Alert3' : "Recommend emergency Caeserean Section.";
+   'Alert4' : "Slow Cervical dilatation detected, Recommend Augmentation of labour.";
+   'Alert5' : "Hypothermia Detected recommend Heat covering";
+   'Alert6' : "Maternal Tachycardia Detected, Possible Maternal Fever or Neonatal Sepsis, Recommend appropriate antibiotics";
+   ;;
+end:

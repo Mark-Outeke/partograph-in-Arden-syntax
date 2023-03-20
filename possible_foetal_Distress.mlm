@@ -1,0 +1,71 @@
+maintenance:
+    title:          Possible_foetal_distress_detected;; 
+    mlmname:        Possible_foetal_distress_detected;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    MHI 2021;;
+    author:         Group3;;
+    specialist:     Medexter Healthcare;;
+    date:           2023-01-07;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+       (FHR, 
+        LabourStart_timeF, 
+        Amniotic_Fluid,
+        HeadDescent_Size, 
+        FetalPosition, 
+        Moulding, 
+        Caput
+        ) :=  Argument;
+       
+       (LabourStart_timeM, 
+       	ContractionsPrd, 
+       	DilatationSize, 
+       	SYsBPH, DYsBPH, 
+       	Temperature, 
+       	MHR, 
+       	Urine, 
+       	Parity
+       ) :=  Argument;
+        NormalPulse:= MHR >= 60 or MHR < 120;
+        NormalFHR := FHR > 110 OR FHR <= 160;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	
+	counter:= 0;
+	
+     if Baseline_FHR >= 110 OR Baseline_FHR <60 THEN
+     	
+     	endif;
+     
+     if Baseline_FHR >= 110 and Baseline_FHR <60 then 
+     initTime:= counter + 30 seconds;
+     
+     	endif;
+     
+     if Baseline_FHR <60 then
+     initTime:= counter + 30 seconds;
+    
+     	endif;
+     	
+     if Amniotic_Fluid = "M+++" then
+    
+     	endif;
+     	Conclude true;
+     	Notification :="Possible foetal Distress, Assist Mother turn left ";
+   ;;
+	action: 
+        return Notification;
+   ;;
+   urgency: ;;
+end:

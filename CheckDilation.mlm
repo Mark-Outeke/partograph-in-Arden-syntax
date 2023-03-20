@@ -1,0 +1,39 @@
+maintenance:
+    title:          title;; 
+    mlmname:        mlmname;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        //MESSAGE:= "Sending SMS alert message..." //TO = SMS;
+        
+      result_interval:= 1 hour;
+      time_between_alerts := 4 hours;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	
+if result_interval < 1 hour then 
+	msg := "Patient is on HemoDialysis, estimates of CrCl are not accurate!" ;
+    
+     conclude true;
+    endif;
+   ;;
+	action: 
+     return "this string will be returned";
+   ;;
+   urgency: ;;
+end:

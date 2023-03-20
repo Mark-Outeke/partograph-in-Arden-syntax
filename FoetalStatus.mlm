@@ -1,0 +1,84 @@
+maintenance:
+    title:          title;; 
+    mlmname:        FoetalStatus;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        FetalValues2 := OBJECT [FHR, LabourStart_timeF, Amniotic_Fluid, HeadDescent_Size, FetalPoistion, Moulding, Caput];
+        MaternalValues2 := OBJECT [LabourStart_timeM, ContractionsPrd, DilatationSize, SYsBPH, DYsBPH, Temperature, MHR];
+        StartofLabour := mlm 'StartofLabour.mlm';
+        NormalFHR := FHR > 110 OR FHR <= 160;
+        checkfetalposition := (FetalValues2.LabourStart_timeF - FetalValues1.LabourStart_timeF) / 3600 seconds;
+         
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     FoetalStatus := CALL StartofLabour with MaternalValues1, FetalValues1;
+     	
+     	
+     	if NOT NormalFHR and MaternalVaues1.ContractionsPrd > 90 seconds then
+     	Notification := localized 'Alert1';
+     	endif;
+     	if NOT NormalFHR then
+     	Notification := localized 'Alert2';
+     	endif;
+     	
+     	If FetalValues2.Amniotic_Fluid = "M+++" and 
+     	FetalValues.MaternalValues2.ContractionsPrdthen < 5 then
+     	Notification := localized 'Alert3';
+     	endif;
+     	
+     	if FetalValues2.Amniotic_Fluid = "B" and 
+     	FetalValues.MaternalValues2.DilatationSize < 1 then
+     	Notification := localized 'Alert4';
+     	endif;
+     	
+     	if  checkfetalposition > 3600 seconds then
+     	if FetalValues1.FetalPosition is P then 
+     	Notification := localized 'Alert6';
+     	endif;
+     	elseif FetalValues1.FetalPosition is T then
+     	Notification := Localized 'Alert7';
+     	endif;
+     	
+     	if FetalValues1.Moulding  = "+++" then
+     	Notification := localized 'Alert8';
+     	Endif;
+     	
+     	if FetalValues1.Caput = "+++" then 
+     	Notification := localized 'Alert9';
+     	Endif;
+     	Conclude true;
+  ;;
+	action: 
+        return Notification;
+   ;;
+   urgency: ;;
+   resources:
+    default: en;;
+    language: en
+ 'Alert1' : "Possible Feotal Distress, Ask Woman to turn left.";
+ 'Alert2' : "Possible Feotal Distress, Ask Woman to turn left. Acultate every 30 minutes after contractions";
+ 'Alert3' : "Alert senior Physician. Recommended Emergency Caesarean Operation.";
+ 'Alert4' : "Possible Placenta abruption, Placenta previa, vasa praevia or uterine rapture detected, Recommend emergency Caeserean Section.";
+ 'Alert5' : "Continue continue to assess FHR every 30 minutes.";
+ 'Alert6' : "Fetal Position is Occiput posterior, Alert senior care Physician, Recommeded Epidural analgesia";
+ 'Alert7' : "Fetal Position is Occiput Transverse, Alert senior care Physician, Recommeded an external cephalic version (ECV)";
+ 'Alert8' : "Possible obstructed labour, Notify senior Physician";
+ 'Alert9' : "Possible obstructed labour, Notify senior Physician and refer to local guidelines for obstetric fistuala management protocal.";
+ ;;
+end:

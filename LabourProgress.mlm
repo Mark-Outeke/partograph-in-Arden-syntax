@@ -1,0 +1,79 @@
+maintenance:
+    title:          title;; 
+    mlmname:        mlmname;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        FetalValues1 := OBJECT [FHR, LabourStart_timeF, Amniotic_Fluid, HeadDescent_Size, FetalPoistion, Moulding, Caput];
+        MaternalValues1 := OBJECT [LabourStart_timeM, ContractionsPrd, DilatationSize, SYsBPH, DYsBPH, Temperature, MHR, Parity, Urine];
+        
+       	
+       	firstStageLabour := MaternalValues1.LabourStart_timeM > 1 minute and MaternalValues1.LabourStart_timeM is less than 12 Hours;
+       	secondStageLabour := firstStageLabour > 12 hours and firstStageLabour < 16 hours;
+       	MaternalStatus := mlm 'MaternalStatus.mlm';
+       	ContractionsFreq := MaternalValues1.ContractionsPrd/60 seconds;
+       	   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     LabourProgress := CALL MaternalStatus with MaternalValues2, FetalValues2;
+     
+     if firstStageLabour then
+    	 if MaternalValues2.ContractionsPrd <= 2 and MaternalValues2.ContractionsPrd > 5 and 
+    	 MaternalValues2.DilatationSize < 1 then
+    	 Notification := localized 'Alert1';
+    	 
+    	
+    	 
+    	
+    	 endif;
+    	contractionsFreq := 0;
+    	while interval 30 minutes do
+    	if ContractionsFreq < 20 then
+    	Notifictaion := localized 'Alert2';
+    	endif;
+    	enddo;
+    endif;
+    
+    if secondStageLabour then 
+ 		 if MaternalValues2.ContractionsPrd >= 2 and MaternalValues2.ContractionsPrd <= 5 and
+    	 MaternalValues1.DilatationSize < 1 then
+    	 Notification := localized 'Alert3';
+    	 endif;
+    	 
+    	contractionsFreq := 0;
+    	while interval 15 minutes do
+    	if ContractionsFreq < 20 then
+    	Notifictaion := localized 'Alert4';
+    	endif;
+    	enddo;
+    endif;
+    
+  conclude true;
+   ;;
+	action: 
+        return Notification;
+   ;;
+   urgency: ;;
+   resources:
+    default: en;;
+    language: en
+ 	'Alert1' : "Possible Obstructed labour, Recommend Caeserean Section.";
+ 	'Alert2' : "Inadequate uterine activity, Recommend Amniotomy or artifical rapturing of membranes";
+ 	'Alert3' : "Weak Contractions Detected, Recommend Augmentation of labour";
+ 	'ALert4' : "Prolonged labour detected, Recommend induction or Augmentation or Emergency Caeseran Section";
+ ;;
+end:

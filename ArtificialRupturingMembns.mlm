@@ -1,0 +1,70 @@
+maintenance:
+    title:          title;; 
+    mlmname:        ArticialRuptureMem;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    SPH MHI2021;;
+    author:         Group4;;
+    specialist:     Mark Outeke, Raphael Birenge, Stella Akidi;;
+    date:           2023-01-28;;
+    validation:     testing;;
+library:
+   purpose: To alert and call action for Artificially rupturing memebranes of the 
+   woman to aid normal , vaccum and augmented labour incases of obstructed labour among other complications ;;
+   explanation: The MLM takes arguemnts from ;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+  
+   msg:=null;
+        intervention:= null;
+       (Amniotic_Fluid, FetalPosition, DilatationSize, ContractionsPrd) := argument;
+					      
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+			if 	Amniotic_Fluid is not equal "B" and 
+				FetalPosition is not equal "T" and 
+				DilatationSize > 5 and 
+				ContractionsPrd > 5 then
+					elseif
+					Amniotic_Fluid is equal "B" and 
+					FetalPosition is equal "T" and 
+					DilatationSize > 5 and 
+					ContractionsPrd < 5 then
+					intervention := false;
+					msg := "Investigate after 4 hours. ";
+					endif;
+			
+				if
+					Amniotic_Fluid is not equal "B" and 
+					FetalPosition is equal "T" and 
+					DilatationSize < 5 and 
+					ContractionsPrd > 5 then
+				elseif
+					Amniotic_Fluid is not equal "B" and 
+					FetalPosition is equal "T" and 
+					DilatationSize < 5 and 
+					ContractionsPrd < 5 then
+					intervention := true;
+					msg := "Obstructed Labour Detected, Recommend Vaccum Delivery ";
+				endif;
+				
+     if Amniotic_Fluid is equal "B" and
+     	 FetalPosition is equal "T" and
+     	 DilatationSize < 5 and
+     	ContractionsPrd > 5 then
+     	intervention := true;
+     	msg:= "Placenta Prevai Detected : Recommended Artificial Rupturing of memenbranes ";
+     	endif; 
+     conclude true;
+   ;;
+	action: 
+        return msg;
+   ;;
+   urgency: ;;
+end:

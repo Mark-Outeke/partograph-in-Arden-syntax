@@ -1,0 +1,34 @@
+maintenance:
+    title:          title;; 
+    mlmname:        mlmname;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        allValues:= Argument;
+        value1 :=allValues[1];
+        value2 :=allValues[2];
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     
+     conclude true;
+   ;;
+	action: 
+        return "this string will be returned";
+   ;;
+   urgency: ;;
+end:

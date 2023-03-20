@@ -1,0 +1,47 @@
+maintenance:
+    title: Example MLM;;
+    mlmname: StartofLabour;;
+    arden: version 2.5;;
+    version: 1.0;;
+    institution: SPH ;;
+    author: Group 3 ;;
+    specialist: ;;
+    date: 2023-02-16;;
+    validation: testing;;
+
+library:
+	
+	Purpose: initiating of variables that will be calcualted at the different periods of time during labour for 
+	both mother and fetus;; 
+	Explanation: ;; 
+	Keywords: ;;
+	Citations: ;;
+	links: ;;
+
+knowledge:
+    type: data-driven;;
+
+    data:
+        
+       (FHR, LabourStart_timeF, Amniotic_Fluid, HeadDescent_Size, FetalPosition, Moulding, Caput) :=  Argument;
+       
+       (LabourStart_timeM, ContractionsPrd, DilatationSize, SYsBPH, DYsBPH, Temperature, MHR, Parity) :=  Argument;
+       
+        ;;
+        
+    evoke: 
+    ;;
+    logic:
+  
+   if ContractionsPrd and LabourStart_timeM and SYsBPH  and HeadDescent_Size is present then	
+   endif;
+   
+   conclude true;
+   ;;
+
+    action:
+        return "Records";
+    ;;
+   urgency: ;;
+   	
+end:

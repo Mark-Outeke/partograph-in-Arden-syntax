@@ -1,0 +1,115 @@
+Maintenance:
+    title:          title;; 
+    mlmname:        Referral;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:     MHI2021;;
+    author:         Group 4;;
+    specialist:     Mark Outeke, Raphael Birenge, Stella Akidi;;
+    date:           2023-01-28;;
+    validation:     testing;;
+library:
+   purpose: Demonstrate the requiremwnts for refrerring a Woman from one facility to another;;
+   explanation: The MLM gets attributes neccesary for the condition of transfer and creates a reminder for when the woman should be transfered.
+   Conditions include wether the woman need an Emergency Caesarean Section or Blood tranfusion. ;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+   allvalues:= argument; 
+  		let Uppercutoff_SYsBPH be 140;
+        let Uppercutoff_DiaBPH be 90;
+        let Lowercutoff_SYsBPH be 80;
+        let Lowercutoff_DiaBPH be 60;
+        (Amniotic_Fluid,FetalPosition, SYsBPH, DiasBPH, MHR, Facility_type) :=  Argument;
+       	uterineRupture:=false;
+        msg:=null;
+        intervention:= null;
+        Hypotension := SYsBPH <90 and DiasBPH < 60;
+      	
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	if Facility_type is equal "BEmONC" and
+			 MHR < 160 and 
+			Amniotic_Fluid is not equal "B" and
+		       Hypotension is not present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is not present then
+		       intervention := false;
+       		
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR < 160 and 
+			Amniotic_Fluid is equal "B" and
+		       Hypotension is not present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is not present then
+		       intervention := true;
+		       msg:= "Possible placenta Abruption, Refer Woman to CEmONC facility ofr Caesarean Section Delivery.";
+       		
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR < 160 and 
+			Amniotic_Fluid is not equal "B" and
+		       Hypotension is not present and 
+		       FetalPosition is equal "T" and 
+		       uterineRupture is not present then
+		       intervention := true;
+		       msg:= "Occiput Tranverse Detected , Conduct External Version after contarctions, 
+		       if fail refer to CEmONC facility for further management";
+       		
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR > 160 and 
+			Amniotic_Fluid is not equal "B" and
+		       Hypotension is present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is not present then
+		       intervention := true;
+		       msg:= "Hypotension present,  Possible hemorrhagic shock, Recommend Vassopessor adminstration. 
+		       Refer Woman to CEmONC facility for further management";
+       		
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR > 160 and 
+			Amniotic_Fluid is not equal "B" and
+		       Hypotension is not present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is present then
+		       intervention := true;
+		       msg:= "Uterine Rupture Detected, Refer Woman to CEmONC facility for further management";
+       	
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR > 160 and 
+			Amniotic_Fluid is equal "B" and
+		       Hypotension is not present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is not present then
+		       intervention := true;
+		       msg:= "Possible fetal Tachycardia, Administer Flecainide Acetate";
+       		
+       		elseif Facility_type is equal "BEmONC" and
+			 MHR > 160 and 
+			Amniotic_Fluid is equal "B" and
+		       Hypotension is present and 
+		       FetalPosition is not equal "T" and 
+		       uterineRupture is not present then
+		       intervention := true;
+		       msg:= "Refer Woman to CEmONC facility for further management";
+       		endif;
+		if Facility_type is equal "BEmONC" and
+			 MHR > 160 and 
+			Amniotic_Fluid is equal "B" and
+		       Hypotension is present and 
+		       FetalPosition is equal "T" and 
+		       uterineRupture is present then
+		       intervention := true;
+		       msg:= "Refer Woman to CEmONC facility for further management";
+       		endif;
+	CONCLUDE TRUE;
+    ;;
+    
+	action: 
+        return msg;
+   ;;
+End:

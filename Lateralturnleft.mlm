@@ -1,0 +1,48 @@
+maintenance:
+    title:          title;; 
+    mlmname:        Lateralturnleft;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    SPH MHI2021;;
+    author:         Group4;;
+    specialist:     Mark Outeke, Raphael Birenge, Stella Akidi;;
+    date:           2023-01-28;;
+    validation:     testing;;
+library:
+   purpose: To Demonstrate the decsion for lateral left turn;;
+   explanation: MLM takes the simple arguments of the fetal Heart rate and 
+   wether it decelerates over time after during very contratcion period.;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        allvalues:= ARGUMENT;
+         msg:=null;
+        intervention:= null;
+        (FHR, DeceleratedFHR):= argument; 
+        let ucutoff_FHR be 160;
+        let lcutoff_FHR be 110;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	 if FHR >= ucutoff_FHR and DeceleratedFHR is not equal "L" then
+	elseif FHR < lcutoff_FHR and Deceleration is not equal "L" then
+     intervention:=false;
+     msg:="Alert: Possible Fetal Distress Detected";
+   endif;
+   
+     if FHR < lcutoff_FHR and DeceleratedFHR is equal "L" then
+     elseif FHR >= ucutoff_FHR and DeceleratedFHR is equal "L" then
+     intervention:=true;
+     msg:= "Fetal Distress detected, Assist Woman to turn left";
+     endif;
+     conclude true;
+   ;;
+	action: 
+        return msg;
+   ;;
+   urgency: ;;
+end:

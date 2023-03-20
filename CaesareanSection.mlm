@@ -1,0 +1,73 @@
+maintenance:
+    title:          title;; 
+    mlmname:        CaesereanSection;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    SPH MHI2021;;
+    author:         Group4;;
+    specialist:     Mark Outeke, Raphael Birenge, Stella Akidi;;
+    date:           2023-01-28;;
+    validation:     testing;;
+library:
+   purpose: This MLM is for making the decsion necessary for recommending ;;
+   explanation: The mlm takes arguments such as the measure of the womns blood pressure, the featl position, and detrmines if the 
+   woamn has hypotension with uterine ruptures all which are necessary for a caeserean section delivery;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        let Ucutoff_SYsBPH be 140;
+        let Ucutoff_DiaBPH be 90;
+        let Lcutoff_SYsBPH be 80;
+        let Lcutoff_DiaBPH be 60;
+        uterineRupture:=false;
+        msg:=null;
+        intervention:= null;
+        (MHR, SYsBPH, DiasBPH, FetalPosition ) := argument;
+        Hypotension := SYsBPH <90 and DiasBPH < 60; 
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     if MHR < 160 and 
+     Hypotension is not present and 
+     FetalPosition is not equal "T" and uterineRpture = false then 
+     intervention := false;
+     msg:= "Do nothing";
+     elseif 
+	   MHR < 160 and 
+	   tachycardia is present and 
+	   FetalPosition is not equal "T" and uterineRpture = false then 
+      intervention:=true;
+    msg := "Hypotension Detected";
+     endif;
+     
+     if MHR < 160 and 
+     tachycardia is present and 
+     FetalPosition is equal "T" and uterineRpture = false then 
+     intervention := false;
+    msg:="Recommend IV fluids, Vertical Walking of woman. If sever then cnsider Caesarean Section ";
+     elseif 
+     MHR < 160 and 
+     tachycardia is present and 
+     FetalPosition is equal "T" and uterineRpture = false then 
+     intervention := false;
+    msg:="Recomended vigorous Resuscitation, and Emmergency Caeserean Section Delivery . ";
+     endif;
+     
+     if MHR > 160 and  
+       Hypotension is present and 
+       FetalPosition is equal "T" and 
+       uterineRupture is present then
+       intervention := true;
+     msg := "Recommend immediate Caesarean Section Delivery.";
+     	endif;
+     conclude true;
+   ;;
+	action: 
+        return msg;
+   ;;
+   urgency: ;;
+end:

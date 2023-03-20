@@ -1,0 +1,98 @@
+maintenance:
+    title:          title;; 
+    mlmname:        AugmentLabour;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    MHI2021;;
+    author:         Group 4;;
+    specialist:     Mark Outeke, Raphael Birenge, Stella Akidi;;
+    date:           2023-01-28;;
+    validation:     testing;;
+library:
+   purpose: Conditions to Augmentlabour provided the period is now 4 hours after starrt of labour
+   this might be provided by the system and no need to be captured again.;;
+   explanation: Augumenting labour is a decision made if there is a presence of 
+   pre-eclampsia and prolonged labour of more than 4 hours with out improved cervical dialation of 1cm every one hour.;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+   //declare cutoffs for measuring high blood pressure and labour period presence needed for augmentation of labour 
+        let Ucutoff_SYsBPH be 140;
+        let Ucutoff_DiaBPH be 90;
+        let Lcutoff_SYsBPH be 80;
+        let Lcutoff_DiaBPH be 60;
+        LabourPeriod := 4 hours;
+        
+        msg:=null;
+        intervention:= null;
+        	
+      (Amniotic_Fluid, SYsBPH, DiasBPH, Urine, DilationSize) := argument;
+					       	
+					       	
+					       	
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	
+    if Amniotic_Fluid is not equal "B" and 
+     	Ucutoff_SYsBPH < SYsBPH and Ucutoff_DiaBPH < DiasBPH and  
+     	Urine is not equal "P++" and 
+     	DilationSize > 5 and  
+     	LabourPeriod is present
+     	 then
+     	elseif Amniotic_Fluid is not equal "B" and 
+     		Ucutoff_SYsBPH < SYsBPH and Ucutoff_DiaBPH < DiasBPH and 
+     		Urine is not equal "P++" and 
+     		DilationSize < 5 and 
+     		LabourPeriod is present
+     	 then
+     	
+     		intevention := false;
+     		msg:= "Do nothing";
+     		endif;
+     		
+     if Amniotic_Fluid is not equal "B" and 
+     	Ucutoff_SYsBPH > SYsBPH and Ucutoff_DiaBPH > DiasBPH 
+     	and Urine is not equal "P++" and 
+     	DilationSize < 5 and 
+     	LabourPeriod is present 
+     	then
+     	if Amniotic_Fluid is not equal "B" and 
+	     	Ucutoff_SYsBPH > SYsBPH and Ucutoff_DiaBPH > DiasBPH 
+	     	and Urine is equal "p++" and 
+	     	DilationSize > 5 and
+	     	LabourPeriod is present 
+     	then 
+     	msg := "Possible pre-eclampsia detected";
+     elseif Amniotic_Fluid is equal "B" and 
+	     	Ucutoff_SYsBPH > SYsBPH and Ucutoff_DiaBPH > DiasBPH 
+	     	and Urine is equal "P++" and 
+	     	DilationSize < 5 and 
+	     	LabourPeriod is present
+     		then
+     			intervention := true;
+     			msg := "Posiible pre-eclampsia detected, Recommend IV fluids and Magnesium Sulfate.";
+     			endif;
+     		endif;
+     	
+     if Amniotic_Fluid = "B" and
+     	 Ucutoff_SYsBPH < SYsBPH and Ucutoff_DiaBPH < DiasBPH 
+     	 and Urine = "P++" and 
+     	DilationSize < 5 and 
+     	 LabourPeriod is present
+     	 	then
+     				intervention :=true;
+     		msg := "Recommended Augmentation of labour with Oxytocin IV at 15 mu per minute";
+     	endif;
+     conclude true;
+    
+   ;;
+	action: 
+        return msg;
+   ;;
+   urgency: ;;
+end:

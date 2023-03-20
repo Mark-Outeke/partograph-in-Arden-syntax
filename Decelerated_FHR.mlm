@@ -1,0 +1,36 @@
+maintenance:
+    title:          title;; 
+    mlmname:        mlmname;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    Medexter Healthcare;;
+    author:         Medexter Healthcare;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: template mlm to show basic structure;;
+   explanation: description how this mlm works;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+         let contractions_Periods be cont_Prds;
+         (cont_Prds):= Argument; 
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+	
+	
+		 
+     
+     conclude true;
+   ;;
+	action: 
+        return "Foetal Heart Rate Deceleration Detected ";
+   ;;
+   urgency: ;;
+end:

@@ -1,0 +1,90 @@
+maintenance:
+title: Action on initial active labour slow progress;;
+mlmname: No_Intervention_Needed;;
+arden: version 2.9;;
+version: 0.1;;
+institution: Makerere University School of Public Health;;
+author: Obbo Paul Kawunye;Alucu Gabriel;;
+specialist: Dr Peter Wakholi;;
+date: 2022-05-10;;
+validation: production;;
+library:
+purpose: alert the health worker when active labour starts not to progress normally;;
+explanation: Cervix dilation is lower than 1.2 cm/hr in Nulligravida/ primigravida women and less than 1.5cm/hr in multigravida women. According to WHO cervix dilation below 1cm/hr, Descent of
+foetal head is less than 1cm/hr in Nulligravida and less than 2cm/hr in multigravida and if the membranes are ruptured and liquor is meconium-stained;;
+keywords: Refer patient;comprehensive obstetric care;alert doctor;transfer patient;refer patient;;
+citations: ;;
+links: ;;
+knowledge:
+type: data_driven;;
+data:
+allValues:= Argument;
+gravida :=allValues[1];
+cervixDilationPerHour := allValues[2];
+headDescentPerHour := allValues[3];
+foetalHeartRate := allValues[4];
+;;
+priority:40;;
+evoke: ;;
+logic:
+				intervention:="";
+				if gravida = "nulligravida" then
+					if cervixDilationPerHour >= 1.2 then
+						if headDescentPerHour >= 1 then
+							if foetalHeartRate >= 110 then
+								intervention := "Labour is progressing normally, no intervention needed";
+				else
+					if facilityType = "CEmONC" then
+						intervention := "Augment Labour";
+				else
+						intervention := "Transfer patient to a CEmONC facility for further management";
+					endif;
+							endif;
+				else
+						if facilityType = "CEmONC" then
+							intervention := "Augment Labour";
+				else
+								intervention := "Transfer patient to a CEmONC facility for further management";
+						endif;
+						endif;
+				else
+						if facilityType = "CEmONC" then
+						intervention := "Augment Labour";
+				else
+						intervention := "Transfer patient to a CEmONC facility for further management";
+						endif;
+				endif;
+				else
+						if cervixDilationPerHour >= 1.5 then
+						if headDescentPerHour >= 2 then
+						if foetalHeartRate >= 110 then
+				intervention := "Labour is progressing normally, no intervention needed";
+				else
+						if facilityType = "CEmONC" then
+				intervention := "Augment Labour";
+				else
+				intervention := "Transfer patient to a CEmONC facility for further management";
+				endif;
+				endif;
+				else
+				if facilityType = "CEmONC" then
+				intervention := "Augment Labour";
+				else
+				intervention := "Transfer patient to a CEmONC facility for further management";
+				endif;
+				endif;
+				else
+				if facilityType = "CEmONC" then
+				intervention := "Augment Labour";
+				else
+				intervention := "Transfer patient to a CEmONC facility for further management";
+				endif;
+				endif;
+				endif;
+				conclude true;
+;;
+action:
+return intervention;
+;;
+urgency: ;;
+end:

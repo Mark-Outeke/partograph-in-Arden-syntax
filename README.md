@@ -1,5 +1,7 @@
 # partograph-in-Arden-syntax
 Arden Syntax for partograph
+This was a Masters in Helath informatics assignement on modelling Active period of child birth.
+It must therefore be treated with an academic critique provided the time it was undertaken.
 Background
 The Partograph is a printed graphical record used to monitor and report the progress of labour during childbirth (Lavender & Bernitz, 2020). When applied correctly, the Partograph is a key tool in the intervention to identify and make decisions about complications that arise during child labour (Bernitz et al.). According to the WHO, the objective of the partograph was to guide midwives and physicians – attending to mothers giving birth – in making the decisions such as the need for augmented labour, artificial rupturing of membranes, and a caesarean section. Furthermore, the WHO, in their 2016 publication on guidelines for a positive pregnancy experience (WHO, 2016) recommended that foetal assessments guided with the use of ultrasound equipment and documented onto this partograph in a bid to reduce neonatal mortality by identifying complications such as distress.
 
@@ -11,4 +13,4 @@ The adoption and application of Clinical decision support systems amplify the qu
 
 Key decisions made by a physician/Nurse during labour 1. When to artificially rupture membranes and aid normal delivery. 2. When to assist the mother turn left. 3. When and why to carry out caesarian birth. 4. When to argument labour and relieve pain. 5. When to refer the woman from one facility to another. By embedding the key decisions in several Medical logic modules, we illustrate that alerts and recommended actions invoked by the provided the arguments from variables about the woman in active labour have been captured by an EMR or directly entered into a communication portal (EMR interface) by the caregivers. We further demonstrate each with the decision tables that identify when to alert and recommended action to the caregivers during active labour. Point to note that under certain circumstances, several other decisions have to be made and recommended by the CDS and these have been listed in the decision tables. The corresponding alerts are also presented within the very decision table of a major action for the caregiver to act upon.
 
-Further details of this work are published in the PDF submission of the assignment
+Further details of this work are published in the PDF submission of the assignment.

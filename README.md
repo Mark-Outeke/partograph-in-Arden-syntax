@@ -2,6 +2,7 @@
 Arden Syntax for partograph
 This was a Masters in Helath informatics assignement on modelling Active period of child birth.
 It must therefore be treated with an academic critique provided the time it was undertaken.
+
 Background
 The Partograph is a printed graphical record used to monitor and report the progress of labour during childbirth (Lavender & Bernitz, 2020). When applied correctly, the Partograph is a key tool in the intervention to identify and make decisions about complications that arise during child labour (Bernitz et al.). According to the WHO, the objective of the partograph was to guide midwives and physicians – attending to mothers giving birth – in making the decisions such as the need for augmented labour, artificial rupturing of membranes, and a caesarean section. Furthermore, the WHO, in their 2016 publication on guidelines for a positive pregnancy experience (WHO, 2016) recommended that foetal assessments guided with the use of ultrasound equipment and documented onto this partograph in a bid to reduce neonatal mortality by identifying complications such as distress.
 
